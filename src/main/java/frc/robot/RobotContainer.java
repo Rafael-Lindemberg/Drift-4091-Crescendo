@@ -44,15 +44,16 @@ public class RobotContainer
     {
       return MathUtil.applyDeadband(super.getRawAxis(axis), .1);
     }
-  }
+  };
+
   XboxController xboxcontroller = new XboxController(1)
   {
     public double getRawAxis(int axis)
     {
       return MathUtil.applyDeadband(super.getRawAxis(axis, .1);)
     }
-  }
-  asf
+  };
+ 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
   {
@@ -60,16 +61,20 @@ public class RobotContainer
     configureBindings();
     //configure default commands
     
-    m_robotDrive.setDefaultCommand(
+    m_robotDrive.setDefaultCommand
+    (
       // Left Stick controls movement 
       // Turning is controlled by x axis of Right Stick
-      new RunCommand(
+      new RunCommand
+      (
         () -> m_robotDrive.drive(
           -psController.getRawAxis(PS4Controller.Axis.LEFT_Y),
           -psController.getRawAxis(PS4Controller.Axis.LEFT_X),
           -psController.getRawAxis(PS4Controller.Axis.RIGHT_X),
           true,true),
-      m_robotDrive));
+      m_robotDrive
+      )
+    );
   }
 
   /**
@@ -81,16 +86,23 @@ public class RobotContainer
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-
-    new JoystickButton(psController::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+ private void configureButtonBindings() 
+ {
+    new JoystickButton(psController, Button.kR1.value)
+      .whileTrue(new RunCommand(
+        () -> m_robotDrive.setX(),
+        m_robotDrive));
   }
 
+/*
+ * private void configureButtonBindings() {
+    JoystickButton r1Button = new JoystickButton(m_driverController, Button.kR1.value);
+    r1Button.whileTrue(new RunCommand(
+        () -> m_robotDrive.setX(),
+        m_robotDrive));
+}
+ *
+ */
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
