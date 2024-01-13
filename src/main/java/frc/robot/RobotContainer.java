@@ -34,7 +34,6 @@ import java.util.List;
  */
 public class RobotContainer 
 {
-
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   //Controllers 
@@ -50,7 +49,7 @@ public class RobotContainer
   {
     public double getRawAxis(int axis)
     {
-      return MathUtil.applyDeadband(super.getRawAxis(axis, .1);)
+      return MathUtil.applyDeadband(super.getRawAxis(axis), .1);
     }
   };
  
@@ -67,11 +66,11 @@ public class RobotContainer
       // Turning is controlled by x axis of Right Stick
       new RunCommand
       (
-        () -> m_robotDrive.drive(
+        () -> m_robotDrive.teleopDrive(
           -psController.getRawAxis(PS4Controller.Axis.LEFT_Y),
           -psController.getRawAxis(PS4Controller.Axis.LEFT_X),
-          -psController.getRawAxis(PS4Controller.Axis.RIGHT_X),
-          true,true),
+          -psController.getRawAxis(PS4Controller.Axis.RIGHT_X)
+        ),
       m_robotDrive
       )
     );
@@ -108,7 +107,8 @@ public class RobotContainer
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() 
+  {
     // An example command will be run in autonomous
     return Autos.exampleAuto(m_exampleSubsystem);
   }
